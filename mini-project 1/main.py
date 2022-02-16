@@ -1,6 +1,7 @@
 import os
 import time as tm
 import numpy as np
+import matplotlib.pyplot as plt
 #function to produce n normal random points in d dimensional hypersphere with radius r
 def generateNormalRandomPointsInHypersphere(dimension, number_of_points, radius = 1):
     #generate n normal random d dimensional vectors
@@ -47,16 +48,55 @@ def graphMain():
     while True:
         d = int(input("Enter upper bound for dimension of hypersphere: "))
         n = int(input("Enter upper bound for number of random vectors to produce: "))
-        
+        xs = []
+        ys = []
+        z0s = []
+        z1s = []
+        z2s = []
+        z3s = []
         for i in range(2, d + 1):
             for j in range(2, n + 1):
+                xs.append(i)
+                ys.append(j)
                 points = generateNormalRandomPointsInHypersphere(i, j)
                 norm = getNorm(points)
                 inner_product = getInnerProduct(points)
-                print("Average of norms is: " + str(np.average(norm)))
-                print("Standard deviation of norms is: " + str(np.std(norm)))
-                print("Average of inner products is: " + str(np.average(inner_product)))
-                print("Standard deviation of inner products is: " + str(np.average(inner_product)))
-                input("\n\nPress any key to restart...\n\n\n\n")
+                z0s.append(np.average(norm))
+                z1s.append(np.std(norm))
+                z2s.append(np.average(inner_product))
+                z3s.append(np.std(inner_product))
+        #####################
+        fig0 = plt.figure()
+        ax0 = fig0.add_subplot(111, projection='3d')
+        ax0.scatter(xs,ys,z0s, c = "blue")
+        ax0.set_xlabel("d")
+        ax0.set_ylabel("n")
+        ax0.set_zlabel("avg of norms")
+        plt.show()
+        #####################
+        fig1 = plt.figure()
+        ax1 = fig1.add_subplot(111, projection='3d')
+        ax1.scatter(xs,ys,z1s, c = "green")
+        ax1.set_xlabel("d")
+        ax1.set_ylabel("n")
+        ax1.set_zlabel("std of norms")
+        plt.show()
+        #####################
+        fig2 = plt.figure()
+        ax2 = fig2.add_subplot(111, projection='3d')
+        ax2.scatter(xs,ys,z2s, c = "black")
+        ax2.set_xlabel("d")
+        ax2.set_ylabel("n")
+        ax2.set_zlabel("avg of inner products")
+        plt.show()
+        #####################
+        fig3 = plt.figure()
+        ax3 = fig3.add_subplot(111, projection='3d')
+        ax3.scatter(xs,ys,z3s, c = "red")
+        ax3.set_xlabel("d")
+        ax3.set_ylabel("n")
+        ax3.set_zlabel("std of inner products")
+        plt.show()
+        input("\n\nPress any key to restart...\n\n\n\n")
 
-#interactiveMain()
+graphMain()
