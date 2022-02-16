@@ -1,8 +1,8 @@
 import os
 import time as tm
 import numpy as np
-#function to produce n normal random points in d dimensional sphere with radius r
-def generateNormalRandomPointsInSphere(dimension, number_of_points, radius = 1):
+#function to produce n normal random points in d dimensional hypersphere with radius r
+def generateNormalRandomPointsInHypersphere(dimension, number_of_points, radius = 1):
     #generate n normal random d dimensional vectors
     points = np.random.normal(size = (dimension, number_of_points))
     #dividing each vector by its norm to scale them between -1 and 1
@@ -28,11 +28,11 @@ def getInnerProduct(points: np.ndarray) -> dict:
     return inner_prod
 
 #function to calculate 
-def main():
+def interactiveMain():
     while True:
-        d = int(input("Enter dimension of sphere: "))
+        d = int(input("Enter dimension of hypersphere: "))
         n = int(input("Enter number of random vectors to produce: "))
-        points = generateNormalRandomPointsInSphere(d, n)
+        points = generateNormalRandomPointsInHypersphere(d, n)
         norm = getNorm(points)
         inner_product = getInnerProduct(points)
         print("Average of norms is: " + str(np.average(norm)))
@@ -42,4 +42,21 @@ def main():
         input("\n\nPress any key to restart...\n\n\n\n")
         #os.system("clear")
 
-main()
+#function
+def graphMain():
+    while True:
+        d = int(input("Enter upper bound for dimension of hypersphere: "))
+        n = int(input("Enter upper bound for number of random vectors to produce: "))
+        
+        for i in range(2, d + 1):
+            for j in range(2, n + 1):
+                points = generateNormalRandomPointsInHypersphere(i, j)
+                norm = getNorm(points)
+                inner_product = getInnerProduct(points)
+                print("Average of norms is: " + str(np.average(norm)))
+                print("Standard deviation of norms is: " + str(np.std(norm)))
+                print("Average of inner products is: " + str(np.average(inner_product)))
+                print("Standard deviation of inner products is: " + str(np.average(inner_product)))
+                input("\n\nPress any key to restart...\n\n\n\n")
+
+#interactiveMain()
