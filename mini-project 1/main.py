@@ -2,6 +2,8 @@ import os
 import time as tm
 import numpy as np
 import matplotlib.pyplot as plt
+
+
 #function to produce n normal random points in d dimensional hypersphere with radius r
 def generateNormalRandomPointsInHypersphere(dimension, number_of_points, radius = 1):
     #generate n normal random d dimensional vectors
@@ -13,6 +15,12 @@ def generateNormalRandomPointsInHypersphere(dimension, number_of_points, radius 
     r **= 1 / dimension
     result = radius * (points * r).T
     return result
+
+#function to calculate std and norm of random generated vector in d dimensional space
+def generateNormalRandomPointsInSpace(dimension, number_of_points):
+    #generate n normal random d dimensional vectors
+    points = np.random.normal(size = (number_of_points, dimension))
+    return points
 
 #function to calculate norms of each set
 def getNorm(points: np.ndarray) -> np.array:
@@ -28,7 +36,7 @@ def getInnerProduct(points: np.ndarray) -> dict:
                 inner_prod.append(np.inner(points[i], points[j]))
     return inner_prod
 
-#function to calculate 
+#function to calculate std and norm of random generated vector in hypersphere
 def interactiveMain():
     while True:
         d = int(input("Enter dimension of hypersphere: "))
@@ -39,11 +47,11 @@ def interactiveMain():
         print("Average of norms is: " + str(np.average(norm)))
         print("Standard deviation of norms is: " + str(np.std(norm)))
         print("Average of inner products is: " + str(np.average(inner_product)))
-        print("Standard deviation of inner products is: " + str(np.average(inner_product)))
+        print("Standard deviation of inner products is: " + str(np.std(inner_product)))
         input("\n\nPress any key to restart...\n\n\n\n")
         #os.system("clear")
 
-#function
+#plot std and norm of vectors in  unit hypersphere based on n and d
 def graphMain():
     while True:
         d = int(input("Enter upper bound for dimension of hypersphere: "))
@@ -99,4 +107,18 @@ def graphMain():
         plt.show()
         input("\n\nPress any key to restart...\n\n\n\n")
 
-graphMain()
+
+def main2():
+    while True:
+        d = int(input("Enter dimension: "))
+        n = int(input("Enter number of random vectors to produce: "))
+        points = generateNormalRandomPointsInSpace(d, n)
+        norm = getNorm(points)
+        inner_product = getInnerProduct(points)
+        print("Average of norms is: " + str(np.average(norm)))
+        print("Standard deviation of norms is: " + str(np.std(norm)))
+        print("Average of inner products is: " + str(np.average(inner_product)))
+        print("Standard deviation of inner products is: " + str(np.std(inner_product)))
+        input("\n\nPress any key to restart...\n\n\n\n")
+
+main2()
